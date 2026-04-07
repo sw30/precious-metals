@@ -1,25 +1,29 @@
-package com.pm.preciousmetals.domain;
+package com.pm.preciousmetals.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 public enum MetalType {
-    GOLD("gold"), SILVER("silver"), PLATINUM("platinum");
+    GOLD("gold", new BigDecimal("100000")),
+    SILVER("silver", new BigDecimal("5000")),
+    PLATINUM("platinum", new BigDecimal("100000"));
 
     private final String value;
+    private final BigDecimal maxPrice;
 
-    MetalType(String value) {
+    MetalType(String value, BigDecimal maxPrice) {
         this.value = value;
+        this.maxPrice = maxPrice;
     }
 
-    @JsonValue
     public String getValue() {
         return value;
     }
 
-    @JsonCreator
+    public BigDecimal getMaxPrice() {
+        return maxPrice;
+    }
+
     public static MetalType fromValue(String value) {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException("Metal type cannot be empty");

@@ -1,5 +1,6 @@
-package com.pm.preciousmetals.domain;
+package com.pm.preciousmetals.infrastructure.adapter.persistence;
 
+import com.pm.preciousmetals.domain.model.MetalType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

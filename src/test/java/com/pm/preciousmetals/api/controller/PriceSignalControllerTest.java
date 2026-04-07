@@ -1,7 +1,8 @@
 package com.pm.preciousmetals.api.controller;
 
 import com.pm.preciousmetals.api.error.GlobalExceptionHandler;
-import com.pm.preciousmetals.service.PriceSignalService;
+import com.pm.preciousmetals.application.usecase.ProcessPriceSignalUseCase;
+import com.pm.preciousmetals.infrastructure.rest.PriceSignalController;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,12 +25,12 @@ class PriceSignalControllerTest {
     private MockMvc mockMvc;
     private final Tracer tracer = mock(Tracer.class);
     private final HttpServletRequest request = mock(HttpServletRequest.class);
-    private final PriceSignalService priceSignalService = mock(PriceSignalService.class);
+    private final ProcessPriceSignalUseCase processPriceSignalUseCase = mock(ProcessPriceSignalUseCase.class);
 
     @BeforeEach
     void setUp() {
-        when(priceSignalService.processPriceSignal(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        mockMvc = MockMvcBuilders.standaloneSetup(new PriceSignalController(priceSignalService))
+        when(processPriceSignalUseCase.processPriceSignal(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        mockMvc = MockMvcBuilders.standaloneSetup(new PriceSignalController(processPriceSignalUseCase))
                 .setControllerAdvice(new GlobalExceptionHandler(Optional.of(tracer), request))
                 .build();
     }
@@ -49,7 +50,7 @@ class PriceSignalControllerTest {
                 .andExpect(status().isOk())
                 .andDo(result -> {
                     String response = result.getResponse().getContentAsString();
-                    assertThat(response).contains("\"metalType\":\"gold\"");
+                    assertThat(response).contains("\"metalType\":\"GOLD\"");
                     assertThat(response).contains("\"price\":{\"value\":32323.32}");
                 });
     }

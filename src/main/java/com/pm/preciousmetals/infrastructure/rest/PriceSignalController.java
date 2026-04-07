@@ -1,9 +1,9 @@
-package com.pm.preciousmetals.api.controller;
+package com.pm.preciousmetals.infrastructure.rest;
 
 import com.pm.preciousmetals.api.request.PriceSignalRequest;
-import com.pm.preciousmetals.domain.Price;
-import com.pm.preciousmetals.domain.PriceSignal;
-import com.pm.preciousmetals.service.PriceSignalService;
+import com.pm.preciousmetals.application.usecase.ProcessPriceSignalUseCase;
+import com.pm.preciousmetals.domain.model.Price;
+import com.pm.preciousmetals.domain.model.PriceSignal;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Price Signal", description = "Endpoints for managing precious metal price signals")
 public class PriceSignalController {
 
-    private final PriceSignalService priceSignalService;
+    private final ProcessPriceSignalUseCase processPriceSignalUseCase;
 
     @PostMapping("/new-price")
     @Operation(summary = "Register a new price signal")
@@ -31,10 +31,10 @@ public class PriceSignalController {
         
         PriceSignal domainSignal = new PriceSignal(
                 Price.of(request.price()), 
-                request.itemType()
+                request.toMetalType()
         );
         
-        PriceSignal processedSignal = priceSignalService.processPriceSignal(domainSignal);
+        PriceSignal processedSignal = processPriceSignalUseCase.processPriceSignal(domainSignal);
         
         return ResponseEntity.ok(processedSignal);
     }

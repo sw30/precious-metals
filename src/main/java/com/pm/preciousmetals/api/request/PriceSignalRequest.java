@@ -1,7 +1,8 @@
 package com.pm.preciousmetals.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pm.preciousmetals.domain.MetalType;
+import com.pm.preciousmetals.domain.model.MetalType;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -13,9 +14,9 @@ public record PriceSignalRequest(
         @Positive(message = "Price must be positive")
         BigDecimal price,
 
-        @NotNull(message = "Item type is mandatory")
+        @NotBlank(message = "Metal type cannot be empty")
         @JsonProperty("itemType")
-        MetalType itemType
+        String itemType
 ) {
     public PriceSignalRequest {
         Objects.requireNonNull(price, "Price is mandatory");
@@ -23,5 +24,12 @@ public record PriceSignalRequest(
         if (price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Price must be positive");
         }
+        if (itemType.isBlank()) {
+            throw new IllegalArgumentException("Metal type cannot be empty");
+        }
+    }
+
+    public MetalType toMetalType() {
+        return MetalType.fromValue(itemType);
     }
 }

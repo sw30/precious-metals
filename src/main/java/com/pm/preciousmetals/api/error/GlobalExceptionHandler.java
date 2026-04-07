@@ -47,6 +47,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException ex) {
+        ApiError error = new ApiError(
+                "BAD_REQUEST",
+                ex.getMessage(),
+                request.getRequestURI(),
+                getTraceId(),
+                LocalDateTime.now()
+        );
+
+        log.warn("Illegal argument [traceId: {}]: {} at {}", error.traceId(), ex.getMessage(), error.path());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiError> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         String message = "Malformed JSON request";
