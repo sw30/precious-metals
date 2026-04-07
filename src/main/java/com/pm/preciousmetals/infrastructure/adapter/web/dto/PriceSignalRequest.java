@@ -1,7 +1,6 @@
-package com.pm.preciousmetals.api.request;
+package com.pm.preciousmetals.infrastructure.adapter.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pm.preciousmetals.domain.model.MetalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -27,9 +26,5 @@ public record PriceSignalRequest(
         if (itemType.isBlank()) {
             throw new IllegalArgumentException("Metal type cannot be empty");
         }
-    }
-
-    public MetalType toMetalType() {
-        return MetalType.fromValue(itemType);
     }
 }

@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.config;
+package com.pm.preciousmetals.infrastructure.configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;

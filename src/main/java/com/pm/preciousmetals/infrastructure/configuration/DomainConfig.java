@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.config;
+package com.pm.preciousmetals.infrastructure.configuration;
 
 import com.pm.preciousmetals.application.service.PriceSignalService;
 import com.pm.preciousmetals.application.usecase.ProcessPriceSignalUseCase;

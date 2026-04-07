@@ -1,5 +1,6 @@
-package com.pm.preciousmetals.config;
+package com.pm.preciousmetals.infrastructure.configuration;
 
+import com.pm.preciousmetals.infrastructure.configuration.security.AppSecurityProperties;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;

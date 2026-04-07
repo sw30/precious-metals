@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.config;
+package com.pm.preciousmetals.infrastructure.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.api.error;
+package com.pm.preciousmetals.infrastructure.adapter.web.error;
 
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;

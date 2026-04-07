@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.config;
+package com.pm.preciousmetals.infrastructure.configuration.security;
 
 import lombok.Getter;
 import lombok.Setter;
