@@ -1,6 +1,7 @@
 package com.pm.preciousmetals.api.controller;
 
 import com.pm.preciousmetals.api.error.GlobalExceptionHandler;
+import com.pm.preciousmetals.service.PriceSignalService;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,10 +24,12 @@ class PriceSignalControllerTest {
     private MockMvc mockMvc;
     private final Tracer tracer = mock(Tracer.class);
     private final HttpServletRequest request = mock(HttpServletRequest.class);
+    private final PriceSignalService priceSignalService = mock(PriceSignalService.class);
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new PriceSignalController())
+        when(priceSignalService.processPriceSignal(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        mockMvc = MockMvcBuilders.standaloneSetup(new PriceSignalController(priceSignalService))
                 .setControllerAdvice(new GlobalExceptionHandler(Optional.of(tracer), request))
                 .build();
     }
