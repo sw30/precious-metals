@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.adapter.persistence;
+package com.pm.preciousmetals.infrastructure.adapter.persistence.entity;
 
 import com.pm.preciousmetals.domain.model.MetalType;
 import jakarta.persistence.*;
