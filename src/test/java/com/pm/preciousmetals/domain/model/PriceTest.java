@@ -46,4 +46,12 @@ class PriceTest {
         assertThatCode(() -> new Price(new BigDecimal("100.1234")))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    void shouldBeEqualForDifferentScales() {
+        Price p1 = new Price(new BigDecimal("100.1"));
+        Price p2 = new Price(new BigDecimal("100.10"));
+        
+        org.assertj.core.api.Assertions.assertThat(p1).isEqualTo(p2);
+    }
 }

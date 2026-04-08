@@ -14,6 +14,7 @@ public record Price(BigDecimal value) {
         if (value.scale() > MAX_SCALE) {
             throw new IllegalArgumentException("Price scale cannot exceed " + MAX_SCALE);
         }
+        value = value.stripTrailingZeros();
     }
 
     public static Price of(BigDecimal value) {

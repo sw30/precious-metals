@@ -1,27 +1,20 @@
 package com.pm.preciousmetals.domain.model;
 
-import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 public enum MetalType {
-    GOLD("gold", new BigDecimal("100000")),
-    SILVER("silver", new BigDecimal("5000")),
-    PLATINUM("platinum", new BigDecimal("100000"));
+    GOLD("gold"),
+    SILVER("silver"),
+    PLATINUM("platinum");
 
     private final String value;
-    private final BigDecimal maxPrice;
 
-    MetalType(String value, BigDecimal maxPrice) {
+    MetalType(String value) {
         this.value = value;
-        this.maxPrice = maxPrice;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public BigDecimal getMaxPrice() {
-        return maxPrice;
     }
 
     public static MetalType fromValue(String value) {
