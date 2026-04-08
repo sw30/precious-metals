@@ -2,6 +2,7 @@ package com.pm.preciousmetals.application.service;
 
 import com.pm.preciousmetals.application.usecase.ProcessPriceSignalUseCase;
 import com.pm.preciousmetals.domain.model.PriceSignal;
+import com.pm.preciousmetals.domain.port.EmailTemplateRepository;
 import com.pm.preciousmetals.domain.port.PriceSignalRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

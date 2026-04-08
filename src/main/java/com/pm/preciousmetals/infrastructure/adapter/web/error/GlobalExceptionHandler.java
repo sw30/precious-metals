@@ -1,5 +1,6 @@
 package com.pm.preciousmetals.infrastructure.adapter.web.error;
 
+import com.pm.preciousmetals.domain.exception.ResourceNotFoundException;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -90,6 +91,21 @@ public class GlobalExceptionHandler {
         log.warn("Malformed JSON [traceId: {}]: {} at {}", error.traceId(), ex.getMessage(), error.path());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiError> handleResourceNotFound(ResourceNotFoundException ex) {
+        ApiError error = new ApiError(
+                "NOT_FOUND",
+                ex.getMessage(),
+                request.getRequestURI(),
+                getTraceId(),
+                LocalDateTime.now()
+        );
+
+        log.warn("Resource not found [traceId: {}]: {} at {}", error.traceId(), ex.getMessage(), error.path());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(Exception.class)
