@@ -1,7 +1,8 @@
 package com.pm.preciousmetals.infrastructure.adapter.web.controller;
 
 import com.pm.preciousmetals.application.usecase.ProcessPriceSignalUseCase;
-import com.pm.preciousmetals.infrastructure.adapter.web.error.GlobalExceptionHandler;
+import com.pm.preciousmetals.infrastructure.web.controller.PriceSignalController;
+import com.pm.preciousmetals.infrastructure.web.error.GlobalExceptionHandler;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;

@@ -9,14 +9,8 @@ import java.util.UUID;
 
 public interface ManageEmailTemplateUseCase {
     EmailTemplate createTemplate(EmailTemplate template);
-    EmailTemplate updateTemplate(UUID id, String title, String content);
+    EmailTemplate updateTemplate(EmailTemplate template);
     void deleteTemplate(UUID id);
     Optional<EmailTemplate> getTemplate(UUID id);
     List<EmailTemplate> getAllTemplates();
-
-    EmailTemplate addRecipient(UUID templateId, EmailRecipient recipient);
-    EmailTemplate removeRecipient(UUID templateId, String email);
-
-    EmailTemplate addRule(UUID templateId, EmailSendingRule rule);
-    EmailTemplate removeRule(UUID templateId, UUID ruleId);
 }

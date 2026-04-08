@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.adapter.persistence.entity;
+package com.pm.preciousmetals.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

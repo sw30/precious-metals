@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.adapter.web.error;
+package com.pm.preciousmetals.infrastructure.web.error;
 
 import java.time.LocalDateTime;
 

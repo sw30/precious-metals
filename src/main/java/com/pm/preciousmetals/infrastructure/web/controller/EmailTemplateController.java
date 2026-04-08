@@ -1,10 +1,9 @@
-package com.pm.preciousmetals.infrastructure.adapter.web.controller;
+package com.pm.preciousmetals.infrastructure.web.controller;
 
 import com.pm.preciousmetals.application.usecase.ManageEmailTemplateUseCase;
-import com.pm.preciousmetals.domain.model.EmailRecipient;
-import com.pm.preciousmetals.domain.model.EmailSendingRule;
 import com.pm.preciousmetals.domain.model.EmailTemplate;
-import com.pm.preciousmetals.infrastructure.adapter.web.dto.*;
+import com.pm.preciousmetals.infrastructure.web.dto.EmailTemplateRequest;
+import com.pm.preciousmetals.infrastructure.web.dto.EmailTemplateResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -54,12 +53,12 @@ public class EmailTemplateController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update email template fields (title, content)")
+    @Operation(summary = "Update email template with all its data (title, content, recipients, rules)")
     public ResponseEntity<EmailTemplateResponse> updateTemplate(
             @PathVariable UUID id,
             @Valid @RequestBody EmailTemplateRequest request) {
         log.info("REST request to update email template: {}", id);
-        EmailTemplate updated = useCase.updateTemplate(id, request.title(), request.content());
+        EmailTemplate updated = useCase.updateTemplate(request.toDomain(id));
         return ResponseEntity.ok(EmailTemplateResponse.fromDomain(updated));
     }
 
@@ -69,46 +68,5 @@ public class EmailTemplateController {
         log.info("REST request to delete email template: {}", id);
         useCase.deleteTemplate(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{id}/recipients")
-    @Operation(summary = "Add a new recipient to the template")
-    public ResponseEntity<EmailTemplateResponse> addRecipient(
-            @PathVariable UUID id,
-            @Valid @RequestBody EmailRecipientDto recipientDto) {
-        log.info("REST request to add recipient to template: {}", id);
-        EmailTemplate updated = useCase.addRecipient(id, recipientDto.toDomain());
-        return ResponseEntity.ok(EmailTemplateResponse.fromDomain(updated));
-    }
-
-    @DeleteMapping("/{id}/recipients/{email}")
-    @Operation(summary = "Remove a recipient from the template by email")
-    public ResponseEntity<EmailTemplateResponse> removeRecipient(
-            @PathVariable UUID id,
-            @PathVariable String email) {
-        log.info("REST request to remove recipient {} from template: {}", email, id);
-        EmailTemplate updated = useCase.removeRecipient(id, email);
-        return ResponseEntity.ok(EmailTemplateResponse.fromDomain(updated));
-    }
-
-    @PostMapping("/{id}/rules")
-    @Operation(summary = "Add a new sending rule to the template")
-    public ResponseEntity<EmailTemplateResponse> addRule(
-            @PathVariable UUID id,
-            @Valid @RequestBody EmailSendingRuleDto ruleDto) {
-        log.info("REST request to add rule to template: {}", id);
-        EmailSendingRule rule = ruleDto.toDomain(id);
-        EmailTemplate updated = useCase.addRule(id, rule);
-        return ResponseEntity.ok(EmailTemplateResponse.fromDomain(updated));
-    }
-
-    @DeleteMapping("/{id}/rules/{ruleId}")
-    @Operation(summary = "Remove a sending rule from the template")
-    public ResponseEntity<EmailTemplateResponse> removeRule(
-            @PathVariable UUID id,
-            @PathVariable UUID ruleId) {
-        log.info("REST request to remove rule {} from template: {}", ruleId, id);
-        EmailTemplate updated = useCase.removeRule(id, ruleId);
-        return ResponseEntity.ok(EmailTemplateResponse.fromDomain(updated));
     }
 }

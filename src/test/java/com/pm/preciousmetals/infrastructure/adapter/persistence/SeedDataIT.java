@@ -1,7 +1,7 @@
 package com.pm.preciousmetals.infrastructure.adapter.persistence;
 
 import com.pm.preciousmetals.domain.model.EmailTemplate;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.repository_adapters.EmailTemplateRepositoryAdapter;
+import com.pm.preciousmetals.infrastructure.persistence.adapters.EmailTemplateRepositoryAdapter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

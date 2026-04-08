@@ -7,7 +7,8 @@ import com.pm.preciousmetals.domain.model.EmailTemplate;
 import com.pm.preciousmetals.domain.model.rules.Operand;
 import com.pm.preciousmetals.domain.model.rules.Operator;
 import com.pm.preciousmetals.domain.model.rules.Rule;
-import com.pm.preciousmetals.infrastructure.adapter.web.error.GlobalExceptionHandler;
+import com.pm.preciousmetals.infrastructure.web.controller.EmailTemplateController;
+import com.pm.preciousmetals.infrastructure.web.error.GlobalExceptionHandler;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -82,50 +83,30 @@ class EmailTemplateControllerTest {
     }
 
     @Test
-    void shouldAddRecipient() throws Exception {
+    void shouldUpdateTemplate() throws Exception {
         UUID id = UUID.randomUUID();
-        EmailTemplate updatedTemplate = new EmailTemplate(id, "Title", "Content", 
-                List.of(new EmailRecipient("new@example.com")), Collections.emptyList());
-        when(useCase.addRecipient(eq(id), any())).thenReturn(updatedTemplate);
-
-        String json = "{\"email\": \"new@example.com\"}";
-
-        mockMvc.perform(post("/api/v1/email-templates/" + id + "/recipients")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().isOk())
-                .andExpect(result -> {
-                    String response = result.getResponse().getContentAsString();
-                    assertThat(response).contains("\"email\":\"new@example.com\"");
-                });
-    }
-
-    @Test
-    void shouldAddRule() throws Exception {
-        UUID id = UUID.randomUUID();
-        UUID ruleId = UUID.randomUUID();
-        EmailSendingRule rule = new EmailSendingRule(ruleId, new Rule(Operand.PRICE, Operator.GREATER_THAN, new BigDecimal("100.00")), id);
-        EmailTemplate updatedTemplate = new EmailTemplate(id, "Title", "Content", 
-                Collections.emptyList(), List.of(rule));
+        EmailTemplate updatedTemplate = new EmailTemplate(id, "Updated Title", "Updated Content", 
+                List.of(new EmailRecipient("updated@example.com")), Collections.emptyList());
         
-        when(useCase.addRule(eq(id), any())).thenReturn(updatedTemplate);
+        when(useCase.updateTemplate(any())).thenReturn(updatedTemplate);
 
         String json = """
                 {
-                    "operand": "PRICE",
-                    "operator": "GREATER_THAN",
-                    "targetValue": 100.00
+                    "title": "Updated Title",
+                    "content": "Updated Content",
+                    "recipients": [{"email": "updated@example.com"}],
+                    "rules": []
                 }
                 """;
 
-        mockMvc.perform(post("/api/v1/email-templates/" + id + "/rules")
+        mockMvc.perform(put("/api/v1/email-templates/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
                 .andExpect(result -> {
                     String response = result.getResponse().getContentAsString();
-                    assertThat(response).contains("\"operand\":\"PRICE\"");
-                    assertThat(response).contains("\"targetValue\":100.0");
+                    assertThat(response).contains("\"title\":\"Updated Title\"");
+                    assertThat(response).contains("\"email\":\"updated@example.com\"");
                 });
     }
 

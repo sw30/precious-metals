@@ -1,7 +1,7 @@
 package com.pm.preciousmetals.infrastructure.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pm.preciousmetals.infrastructure.adapter.web.error.ApiError;
+import com.pm.preciousmetals.infrastructure.web.error.ApiError;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;

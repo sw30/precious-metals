@@ -6,8 +6,8 @@ import com.pm.preciousmetals.domain.model.EmailTemplate;
 import com.pm.preciousmetals.domain.model.rules.Operand;
 import com.pm.preciousmetals.domain.model.rules.Operator;
 import com.pm.preciousmetals.domain.model.rules.Rule;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.repository.EmailTemplateRepository;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.repository_adapters.EmailTemplateRepositoryAdapter;
+import com.pm.preciousmetals.infrastructure.persistence.repository.EmailTemplateRepository;
+import com.pm.preciousmetals.infrastructure.persistence.adapters.EmailTemplateRepositoryAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +59,8 @@ class EmailTemplatePersistenceIT {
         EmailSendingRule rule = new EmailSendingRule(null, new Rule(Operand.PRICE, Operator.GREATER_THAN, BigDecimal.TEN), template.id());
 
         // when
-        EmailTemplate updated = template.addRecipient(recipient).addRule(rule).withTitle("Updated");
-        adapter.save(updated);
+        template.update("Updated", "Initial", List.of(recipient), List.of(rule));
+        adapter.save(template);
 
         // then
         EmailTemplate retrieved = adapter.findById(template.id()).orElseThrow();
@@ -80,15 +80,14 @@ class EmailTemplatePersistenceIT {
         EmailTemplate saved = adapter.save(template);
         // Add recipient and rule
         EmailSendingRule rule = new EmailSendingRule(null, new Rule(Operand.PRICE, Operator.GREATER_THAN, BigDecimal.TEN), saved.id());
-        EmailTemplate updated = saved.addRecipient(recipient).addRule(rule);
-        EmailTemplate persisted = adapter.save(updated);
+        saved.update("Title", "Content", List.of(recipient), List.of(rule));
+        EmailTemplate persisted = adapter.save(saved);
         assertThat(persisted.recipients()).hasSize(1);
         assertThat(persisted.rules()).hasSize(1);
 
         // when - remove both
-        UUID ruleId = persisted.rules().get(0).id();
-        EmailTemplate afterRemoval = persisted.removeRecipient(recipient).removeRule(ruleId);
-        adapter.save(afterRemoval);
+        persisted.update("Title", "Content", List.of(), List.of());
+        adapter.save(persisted);
 
         // then
         EmailTemplate retrieved = adapter.findById(saved.id()).orElseThrow();

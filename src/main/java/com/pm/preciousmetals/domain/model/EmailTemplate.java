@@ -5,44 +5,52 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public record EmailTemplate(UUID id, String title, String content, List<EmailRecipient> recipients, List<EmailSendingRule> rules) {
-    public EmailTemplate {
-        Objects.requireNonNull(title, "Title cannot be null");
-        Objects.requireNonNull(content, "Content cannot be null");
-        Objects.requireNonNull(recipients, "Recipients list cannot be null");
-        Objects.requireNonNull(rules, "Rules list cannot be null");
+public class EmailTemplate {
+    private final UUID id;
+    private String title;
+    private String content;
+    private List<EmailRecipient> recipients;
+    private List<EmailSendingRule> rules;
+
+    public EmailTemplate(UUID id, String title, String content, List<EmailRecipient> recipients, List<EmailSendingRule> rules) {
+        this.id = id;
+        this.title = Objects.requireNonNull(title, "Title cannot be null");
+        this.content = Objects.requireNonNull(content, "Content cannot be null");
+        this.recipients = new ArrayList<>(Objects.requireNonNull(recipients, "Recipients list cannot be null"));
+        this.rules = new ArrayList<>(Objects.requireNonNull(rules, "Rules list cannot be null"));
     }
 
-    public EmailTemplate withTitle(String newTitle) {
-        return new EmailTemplate(id, newTitle, content, recipients, rules);
+    public void update(String title, String content, List<EmailRecipient> recipients, List<EmailSendingRule> rules) {
+        this.title = Objects.requireNonNull(title, "Title cannot be null");
+        this.content = Objects.requireNonNull(content, "Content cannot be null");
+        this.recipients = new ArrayList<>(Objects.requireNonNull(recipients, "Recipients list cannot be null"));
+        this.rules = new ArrayList<>(Objects.requireNonNull(rules, "Rules list cannot be null"));
     }
 
-    public EmailTemplate withContent(String newContent) {
-        return new EmailTemplate(id, title, newContent, recipients, rules);
+    public UUID id() {
+        return id;
     }
 
-    public EmailTemplate addRecipient(EmailRecipient recipient) {
-        List<EmailRecipient> newRecipients = new ArrayList<>(recipients);
-        newRecipients.add(recipient);
-        return new EmailTemplate(id, title, content, List.copyOf(newRecipients), rules);
+    public String title() {
+        return title;
     }
 
-    public EmailTemplate removeRecipient(EmailRecipient recipient) {
-        List<EmailRecipient> newRecipients = new ArrayList<>(recipients);
-        newRecipients.remove(recipient);
-        return new EmailTemplate(id, title, content, List.copyOf(newRecipients), rules);
+    public String content() {
+        return content;
     }
 
-    public EmailTemplate addRule(EmailSendingRule rule) {
-        List<EmailSendingRule> newRules = new ArrayList<>(rules);
-        newRules.add(rule);
-        return new EmailTemplate(id, title, content, recipients, List.copyOf(newRules));
+    public List<EmailRecipient> recipients() {
+        return List.copyOf(recipients);
     }
 
-    public EmailTemplate removeRule(UUID ruleId) {
-        List<EmailSendingRule> newRules = rules.stream()
-                .filter(r -> !r.id().equals(ruleId))
-                .toList();
-        return new EmailTemplate(id, title, content, recipients, newRules);
+    public List<EmailSendingRule> rules() {
+        return List.copyOf(rules);
+    }
+
+    public boolean shouldBeSentFor(PriceSignal signal) {
+        if (rules.isEmpty()) {
+            return false;
+        }
+        return rules.stream().allMatch(rule -> rule.rule().matches(signal));
     }
 }

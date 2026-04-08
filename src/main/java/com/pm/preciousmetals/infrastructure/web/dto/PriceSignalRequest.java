@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.adapter.web.dto;
+package com.pm.preciousmetals.infrastructure.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

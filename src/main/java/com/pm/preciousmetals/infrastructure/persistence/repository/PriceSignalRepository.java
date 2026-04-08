@@ -1,6 +1,6 @@
-package com.pm.preciousmetals.infrastructure.adapter.persistence.repository;
+package com.pm.preciousmetals.infrastructure.persistence.repository;
 
-import com.pm.preciousmetals.infrastructure.adapter.persistence.entity.PriceSignalEntity;
+import com.pm.preciousmetals.infrastructure.persistence.entity.PriceSignalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 

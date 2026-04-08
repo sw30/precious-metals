@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.adapter.web.dto;
+package com.pm.preciousmetals.infrastructure.web.dto;
 
 import com.pm.preciousmetals.domain.model.EmailRecipient;
 import com.pm.preciousmetals.domain.model.EmailSendingRule;
@@ -20,7 +20,10 @@ public record EmailTemplateRequest(
     List<EmailSendingRuleDto> rules
 ) {
     public EmailTemplate toDomain() {
-        UUID templateId = UUID.randomUUID();
+        return toDomain(UUID.randomUUID());
+    }
+
+    public EmailTemplate toDomain(UUID templateId) {
         List<EmailRecipient> domainRecipients = recipients != null ? 
             recipients.stream().map(EmailRecipientDto::toDomain).toList() : Collections.emptyList();
         List<EmailSendingRule> domainRules = rules != null ? 

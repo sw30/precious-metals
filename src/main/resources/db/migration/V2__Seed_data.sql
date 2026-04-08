@@ -1,10 +1,10 @@
 -- Inicjalizacja przykładowych szablonów e-mail (tylko jeśli ich nie ma)
 INSERT INTO email_templates (id, title, content)
-SELECT 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Gold Price Alert', 'Złoto osiągnęło poziom: ${price}. Twoja reguła: ${operator} ${targetValue}.'
+SELECT 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Gold Price Alert', 'Cena złota przekroczyła ustalony poziom.'
 WHERE NOT EXISTS (SELECT 1 FROM email_templates WHERE id = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
 
 INSERT INTO email_templates (id, title, content)
-SELECT 'b1efbc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'Silver Price Drop Alert', 'Srebro spadło poniżej ${targetValue}. Aktualna cena: ${price}.'
+SELECT 'b1efbc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'Silver Price Drop Alert', 'Cena srebra spadła poniżej ustalonego poziomu.'
 WHERE NOT EXISTS (SELECT 1 FROM email_templates WHERE id = 'b1efbc99-9c0b-4ef8-bb6d-6bb9bd380a22');
 
 -- Odbiorcy dla szablonu Gold

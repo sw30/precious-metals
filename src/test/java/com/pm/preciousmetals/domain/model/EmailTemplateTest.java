@@ -14,58 +14,33 @@ import static org.assertj.core.api.Assertions.assertThat;
 class EmailTemplateTest {
 
     @Test
-    void shouldCreateNewTemplateWithAddedRecipient() {
+    void shouldUpdateTemplateData() {
         // given
-        EmailTemplate template = new EmailTemplate(UUID.randomUUID(), "Title", "Content", List.of(), List.of());
+        EmailTemplate template = new EmailTemplate(UUID.randomUUID(), "Old Title", "Old Content", List.of(), List.of());
         EmailRecipient recipient = new EmailRecipient("test@example.com");
 
         // when
-        EmailTemplate updated = template.addRecipient(recipient);
+        template.update("New Title", "New Content", List.of(recipient), List.of());
 
         // then
-        assertThat(updated.recipients()).containsExactly(recipient);
-        assertThat(template.recipients()).isEmpty(); // original unchanged
+        assertThat(template.title()).isEqualTo("New Title");
+        assertThat(template.content()).isEqualTo("New Content");
+        assertThat(template.recipients()).containsExactly(recipient);
     }
 
     @Test
-    void shouldRemoveRecipient() {
-        // given
-        EmailRecipient recipient = new EmailRecipient("test@example.com");
-        EmailTemplate template = new EmailTemplate(UUID.randomUUID(), "Title", "Content", List.of(recipient), List.of());
-
-        // when
-        EmailTemplate updated = template.removeRecipient(recipient);
-
-        // then
-        assertThat(updated.recipients()).isEmpty();
-    }
-
-    @Test
-    void shouldAddRule() {
+    void shouldMatchSignalBasedOnRules() {
         // given
         UUID templateId = UUID.randomUUID();
-        EmailTemplate template = new EmailTemplate(templateId, "Title", "Content", List.of(), List.of());
-        EmailSendingRule rule = new EmailSendingRule(UUID.randomUUID(), new Rule(Operand.PRICE, Operator.GREATER_THAN, BigDecimal.TEN), templateId);
+        Rule rule = new Rule(Operand.PRICE, Operator.GREATER_THAN, new BigDecimal("100.00"));
+        EmailSendingRule emailRule = new EmailSendingRule(UUID.randomUUID(), rule, templateId);
+        EmailTemplate template = new EmailTemplate(templateId, "Title", "Content", List.of(), List.of(emailRule));
 
-        // when
-        EmailTemplate updated = template.addRule(rule);
+        PriceSignal match = new PriceSignal(new Price(new BigDecimal("150.00")), MetalType.GOLD);
+        PriceSignal noMatch = new PriceSignal(new Price(new BigDecimal("50.00")), MetalType.GOLD);
 
-        // then
-        assertThat(updated.rules()).containsExactly(rule);
-    }
-
-    @Test
-    void shouldRemoveRule() {
-        // given
-        UUID templateId = UUID.randomUUID();
-        UUID ruleId = UUID.randomUUID();
-        EmailSendingRule rule = new EmailSendingRule(ruleId, new Rule(Operand.PRICE, Operator.GREATER_THAN, BigDecimal.TEN), templateId);
-        EmailTemplate template = new EmailTemplate(templateId, "Title", "Content", List.of(), List.of(rule));
-
-        // when
-        EmailTemplate updated = template.removeRule(ruleId);
-
-        // then
-        assertThat(updated.rules()).isEmpty();
+        // when & then
+        assertThat(template.shouldBeSentFor(match)).isTrue();
+        assertThat(template.shouldBeSentFor(noMatch)).isFalse();
     }
 }

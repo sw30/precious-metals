@@ -1,8 +1,8 @@
-package com.pm.preciousmetals.infrastructure.adapter.persistence.repository_adapters;
+package com.pm.preciousmetals.infrastructure.persistence.adapters;
 
 import com.pm.preciousmetals.domain.model.PriceSignal;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.entity.PriceSignalEntity;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.repository.PriceSignalRepository;
+import com.pm.preciousmetals.infrastructure.persistence.entity.PriceSignalEntity;
+import com.pm.preciousmetals.infrastructure.persistence.repository.PriceSignalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package com.pm.preciousmetals.infrastructure.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pm.preciousmetals.infrastructure.adapter.web.error.ApiError;
+import com.pm.preciousmetals.infrastructure.web.error.ApiError;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.adapter.web.error;
+package com.pm.preciousmetals.infrastructure.web.error;
 
 import com.pm.preciousmetals.domain.exception.ResourceNotFoundException;
 import io.micrometer.tracing.Tracer;

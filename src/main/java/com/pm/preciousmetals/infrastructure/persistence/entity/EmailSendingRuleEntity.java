@@ -1,4 +1,4 @@
-package com.pm.preciousmetals.infrastructure.adapter.persistence.entity;
+package com.pm.preciousmetals.infrastructure.persistence.entity;
 
 import com.pm.preciousmetals.domain.model.rules.Operand;
 import com.pm.preciousmetals.domain.model.rules.Operator;

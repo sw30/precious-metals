@@ -1,13 +1,13 @@
-package com.pm.preciousmetals.infrastructure.adapter.persistence.repository_adapters;
+package com.pm.preciousmetals.infrastructure.persistence.adapters;
 
 import com.pm.preciousmetals.domain.model.EmailRecipient;
 import com.pm.preciousmetals.domain.model.EmailSendingRule;
 import com.pm.preciousmetals.domain.model.EmailTemplate;
 import com.pm.preciousmetals.domain.model.rules.Rule;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.entity.EmailRecipientEntity;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.entity.EmailSendingRuleEntity;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.entity.EmailTemplateEntity;
-import com.pm.preciousmetals.infrastructure.adapter.persistence.repository.EmailTemplateRepository;
+import com.pm.preciousmetals.infrastructure.persistence.entity.EmailRecipientEntity;
+import com.pm.preciousmetals.infrastructure.persistence.entity.EmailSendingRuleEntity;
+import com.pm.preciousmetals.infrastructure.persistence.entity.EmailTemplateEntity;
+import com.pm.preciousmetals.infrastructure.persistence.repository.EmailTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +45,6 @@ public class EmailTemplateRepositoryAdapter implements com.pm.preciousmetals.dom
         entity.setTitle(template.title());
         entity.setContent(template.content());
 
-        // Clear existing collections to support orphan removal
         entity.getRecipients().clear();
         entity.getRules().clear();
 

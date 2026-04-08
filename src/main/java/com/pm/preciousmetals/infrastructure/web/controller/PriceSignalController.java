@@ -1,10 +1,10 @@
-package com.pm.preciousmetals.infrastructure.adapter.web.controller;
+package com.pm.preciousmetals.infrastructure.web.controller;
 
 import com.pm.preciousmetals.application.usecase.ProcessPriceSignalUseCase;
 import com.pm.preciousmetals.domain.model.MetalType;
 import com.pm.preciousmetals.domain.model.Price;
 import com.pm.preciousmetals.domain.model.PriceSignal;
-import com.pm.preciousmetals.infrastructure.adapter.web.dto.PriceSignalRequest;
+import com.pm.preciousmetals.infrastructure.web.dto.PriceSignalRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
