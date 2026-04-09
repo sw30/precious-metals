@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit';
 import { ContextProvider } from '@lit/context';
 import { templateContext } from '../../context/template-context.js';
 import { buttonStyles, headerStyles } from '../../shared.styles.js';
+import {emailTemplateApi} from "../../api/metalEmailTemplate.js";
+import {BackendApiError} from "../../model/ApiError.js";
 
 export class MetalEmailTemplate extends LitElement {
   static properties = {
@@ -72,8 +74,7 @@ export class MetalEmailTemplate extends LitElement {
       templates: [],
       loading: false,
       error: null,
-      fetchTemplates: () => {
-      },
+      fetchTemplates: () => this.fetchTemplates(),
       saveTemplate: (id, data) => {
 
       },
@@ -93,6 +94,31 @@ export class MetalEmailTemplate extends LitElement {
     this.contextValue.fetchTemplates();
   }
 
+  updateContext(newValues) {
+    this.contextValue = { ...this.contextValue, ...newValues };
+    this._provider.setValue(this.contextValue);
+  }
+
+  async fetchTemplates() {
+    this.updateContext({ loading: true, error: null });
+
+    try {
+      const templates = await emailTemplateApi.getAll();
+      this.updateContext({ templates, loading: false });
+    } catch (error) {
+      let errorMessage = 'Unknown error occurred while fetching templates.';
+
+      if (error instanceof BackendApiError) {
+        console.error(`API Error [${error.errorCode}]: ${error.message} (Trace: ${error.traceId})`);
+        errorMessage = `Can't load metal templates: ${error.message}`;
+      } else {
+        console.error('Network or parsing error:', error);
+      }
+
+      this.updateContext({ error: errorMessage, loading: false });
+    }
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
   }
@@ -108,8 +134,23 @@ export class MetalEmailTemplate extends LitElement {
         <div class="list-section">
           ${this.loading && this.templates.length === 0 ? html`<p>Loading templates...</p>` : ''}
           ${this.error ? html`<p style="color: red">Error: ${this.error}</p>` : ''}
-          
-          Template List
+
+          ${this.contextValue.templates.map(t => html`
+              <div class="template-card">
+                  <h3>${t.title}</h3>
+                  <div class="content-preview">
+                      ${t.content}
+                  </div>
+                  <div class="meta">
+                      <span>Recipients: ${t.recipients?.length || 0}</span>
+                      <span>Rules: ${t.rules?.length || 0}</span>
+                  </div>
+                  <div class="actions">
+                      <button class="edit-btn">Edit</button>
+                      <button class="delete-btn">Delete</button>
+                  </div>
+              </div>
+          `)}
         </div>
 
         <div class="form-section">
