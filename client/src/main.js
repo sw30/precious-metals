@@ -1,11 +1,18 @@
 import './style.css';
-import { Router } from '@vaadin/router';
+import page from 'page';
+import { html, render } from 'lit';
+import './views/metal-email-template/metal-email-template.js';
 
 const outlet = document.getElementById('outlet');
-const router = new Router(outlet);
 
-router.setRoutes([
+page('/', () => {
+  render(html`<metal-email-template></metal-email-template>`, outlet);
+});
 
-]);
+page('*', () => {
+  page.redirect('/');
+});
+
+page.start();
 
 console.log('Router initialized');
