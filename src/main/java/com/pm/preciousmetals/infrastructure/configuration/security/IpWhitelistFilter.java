@@ -15,11 +15,11 @@ import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 
 @Component
 @Slf4j
@@ -76,3 +76,4 @@ public class IpWhitelistFilter extends OncePerRequestFilter {
                 });
     }
 }
+

@@ -8,12 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.web.util.matcher.IpAddressMatcher;
-
 import java.util.List;
 import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+
 
 class IpWhitelistFilterTest {
 
@@ -87,3 +87,4 @@ class IpWhitelistFilterTest {
         verify(filterChain).doFilter(request, response);
     }
 }
+

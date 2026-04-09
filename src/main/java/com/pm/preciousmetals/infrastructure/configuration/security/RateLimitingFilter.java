@@ -19,10 +19,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
+
 
 @Component
 @Slf4j
@@ -55,7 +55,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                     return null;
                 });
-                return; // filterChain.doFilter already called
+                return;
             } catch (RateLimitExceededException e) {
                 handleError(requestUri, clientIp, response, "TOO_MANY_REQUESTS", "Rate limit exceeded. Please try again later.", HttpStatus.TOO_MANY_REQUESTS);
                 return;
@@ -105,3 +105,4 @@ public class RateLimitingFilter extends OncePerRequestFilter {
                 });
     }
 }
+

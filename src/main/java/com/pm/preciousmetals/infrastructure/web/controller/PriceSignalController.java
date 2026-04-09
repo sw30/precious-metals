@@ -40,3 +40,4 @@ public class PriceSignalController {
         return ResponseEntity.ok(processedSignal);
     }
 }
+

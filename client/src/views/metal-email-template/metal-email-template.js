@@ -3,8 +3,10 @@ import {ContextProvider} from '@lit/context';
 import {templateContext} from '../../context/template-context.js';
 import {buttonStyles, headerStyles} from '../../shared.styles.js';
 import '../../components/template-list.js';
+import '../../components/template-form.js';
 import {emailTemplateApi} from "../../api/metalEmailTemplate.js";
 import {BackendApiError} from "../../model/ApiError.js";
+import {EmailTemplate} from "../../model/EmailTemplate.js";
 
 export class MetalEmailTemplate extends LitElement {
   static properties = {
@@ -83,12 +85,8 @@ export class MetalEmailTemplate extends LitElement {
       loading: false,
       error: null,
       fetchTemplates: () => this.fetchTemplates(),
-      saveTemplate: (id, data) => {
-
-      },
-      deleteTemplate: (id) => {
-
-      }
+      saveTemplate: (id, data) => this.saveTemplate(id, data),
+      deleteTemplate: (id) => this.deleteTemplate(id)
     };
 
     this._provider = new ContextProvider(this, {
@@ -111,7 +109,8 @@ export class MetalEmailTemplate extends LitElement {
     this.updateContext({loading: true, error: null});
 
     try {
-      const templates = await emailTemplateApi.getAll();
+      const templatesData = await emailTemplateApi.getAll();
+      const templates = templatesData.map(t => new EmailTemplate(t));
       this.updateContext({templates, loading: false});
     } catch (error) {
       let errorMessage = 'Unknown error occurred while fetching templates.';
@@ -127,9 +126,54 @@ export class MetalEmailTemplate extends LitElement {
     }
   }
 
+  async saveTemplate(id, data) {
+    this.updateContext({loading: true, error: null});
+
+    try {
+      if (id) {
+        await emailTemplateApi.update(id, data);
+      } else {
+        await emailTemplateApi.create(data);
+      }
+      await this.fetchTemplates();
+      this.showForm = false;
+      this.selectedTemplate = null;
+    } catch (error) {
+      console.error('Error saving template:', error);
+      this.updateContext({error: 'Failed to save template', loading: false});
+    }
+  }
+
+  async deleteTemplate(id) {
+    this.updateContext({loading: true, error: null});
+
+    try {
+      await emailTemplateApi.delete(id);
+      await this.fetchTemplates();
+      if (this.selectedTemplate?.id === id) {
+        this.showForm = false;
+        this.selectedTemplate = null;
+      }
+    } catch (error) {
+      console.error('Error deleting template:', error);
+      this.updateContext({error: 'Failed to delete template', loading: false});
+    }
+  }
+
+  handleCreateNew() {
+    this.selectedTemplate = new EmailTemplate();
+    this.showForm = true;
+  }
+
+  handleCancel() {
+    this.showForm = false;
+    this.selectedTemplate = null;
+  }
+
   handleEditTemplate(event) {
     const templateId = event.detail.id;
-    this.selectedTemplate = this.contextValue.templates.find(t => t.id === templateId);
+    const templateData = this.contextValue.templates.find(t => t.id === templateId);
+    this.selectedTemplate = new EmailTemplate(JSON.parse(JSON.stringify(templateData)));
     this.showForm = true;
   }
 
@@ -162,7 +206,7 @@ export class MetalEmailTemplate extends LitElement {
     return html`
         <header>
             <h1>Management</h1>
-            <button class="btn-primary">+ Create New</button>
+            <button class="btn-primary" @click=${this.handleCreateNew}>+ Create New</button>
         </header>
 
         <div class="main-layout">
@@ -172,11 +216,14 @@ export class MetalEmailTemplate extends LitElement {
 
             <div class="form-section">
                 ${this.showForm ? html`
-                    Template Form
+                    <template-form 
+                        .template=${this.selectedTemplate}
+                        @cancel-edit=${this.handleCancel}
+                    ></template-form>
                 ` : html`
                     <div class="empty-state">
                         <p>Select a template to edit or create a new one</p>
-                        <button class="btn-primary">Create New</button>
+                        <button class="btn-primary" @click=${this.handleCreateNew}>Create New</button>
                     </div>
                 `}
             </div>

@@ -3,19 +3,19 @@ package com.pm.preciousmetals.application.service;
 import com.pm.preciousmetals.application.usecase.ManageEmailTemplateUseCase;
 import com.pm.preciousmetals.domain.exception.ResourceNotFoundException;
 import com.pm.preciousmetals.domain.model.EmailTemplate;
-import com.pm.preciousmetals.domain.port.EmailTemplateRepository;
+import com.pm.preciousmetals.domain.port.EmailTemplateRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 
 @Slf4j
 @RequiredArgsConstructor
 public class EmailTemplateService implements ManageEmailTemplateUseCase {
 
-    private final EmailTemplateRepository repository;
+    private final EmailTemplateRepositoryPort repository;
 
     @Override
     public EmailTemplate createTemplate(EmailTemplate template) {
@@ -49,3 +49,4 @@ public class EmailTemplateService implements ManageEmailTemplateUseCase {
         return repository.findAll();
     }
 }
+

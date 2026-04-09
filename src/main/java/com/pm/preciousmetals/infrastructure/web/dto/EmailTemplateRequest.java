@@ -1,8 +1,8 @@
 package com.pm.preciousmetals.infrastructure.web.dto;
 
 import com.pm.preciousmetals.domain.model.EmailRecipient;
-import com.pm.preciousmetals.domain.model.EmailSendingRule;
 import com.pm.preciousmetals.domain.model.EmailTemplate;
+import com.pm.preciousmetals.domain.model.rules.Rule;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Collections;
@@ -26,9 +26,10 @@ public record EmailTemplateRequest(
     public EmailTemplate toDomain(UUID templateId) {
         List<EmailRecipient> domainRecipients = recipients != null ? 
             recipients.stream().map(EmailRecipientDto::toDomain).toList() : Collections.emptyList();
-        List<EmailSendingRule> domainRules = rules != null ? 
-            rules.stream().map(r -> r.toDomain(templateId)).toList() : Collections.emptyList();
+        List<Rule> domainRules = rules != null ? 
+            rules.stream().map(EmailSendingRuleDto::toDomain).toList() : Collections.emptyList();
         
         return new EmailTemplate(templateId, title, content, domainRecipients, domainRules);
     }
 }
+

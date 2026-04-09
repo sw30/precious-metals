@@ -11,10 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
+
 
 @Component
 @Slf4j
@@ -68,3 +68,4 @@ public class LoggingAuthenticationEntryPoint implements AuthenticationEntryPoint
         }
     }
 }
+

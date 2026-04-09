@@ -9,14 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+
+
 
 class LoggingAuthenticationEntryPointTest {
 
@@ -44,14 +44,12 @@ class LoggingAuthenticationEntryPointTest {
 
     @Test
     void shouldReturnApiErrorOnUnauthorized() throws Exception {
-        // Given
+
         when(request.getRequestURI()).thenReturn("/api/test");
         when(authException.getMessage()).thenReturn("Full authentication is required");
-        
-        // When
+
         entryPoint.commence(request, response, authException);
-        
-        // Then
+
         verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         verify(response).setContentType(MediaType.APPLICATION_JSON_VALUE);
         
@@ -62,3 +60,4 @@ class LoggingAuthenticationEntryPointTest {
         assertThat(jsonResponse).contains("\"timestamp\"");
     }
 }
+

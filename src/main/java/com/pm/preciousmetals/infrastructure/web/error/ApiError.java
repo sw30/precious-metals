@@ -9,3 +9,4 @@ public record ApiError(
         String traceId,
         LocalDateTime timestamp
 ) {}
+

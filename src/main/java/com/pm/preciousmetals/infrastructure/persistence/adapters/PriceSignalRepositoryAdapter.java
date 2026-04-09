@@ -1,6 +1,7 @@
 package com.pm.preciousmetals.infrastructure.persistence.adapters;
 
 import com.pm.preciousmetals.domain.model.PriceSignal;
+import com.pm.preciousmetals.domain.port.PriceSignalRepositoryPort;
 import com.pm.preciousmetals.infrastructure.persistence.entity.PriceSignalEntity;
 import com.pm.preciousmetals.infrastructure.persistence.repository.PriceSignalRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PriceSignalRepositoryAdapter implements com.pm.preciousmetals.domain.port.PriceSignalRepository {
+public class PriceSignalRepositoryAdapter implements PriceSignalRepositoryPort {
 
     private final PriceSignalRepository jpaRepository;
 
@@ -22,3 +23,4 @@ public class PriceSignalRepositoryAdapter implements com.pm.preciousmetals.domai
         return priceSignal;
     }
 }
+

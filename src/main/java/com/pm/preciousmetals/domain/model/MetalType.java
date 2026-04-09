@@ -27,3 +27,4 @@ public enum MetalType {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid metal type: " + value + ". Allowed: gold, silver, platinum"));
     }
 }
+

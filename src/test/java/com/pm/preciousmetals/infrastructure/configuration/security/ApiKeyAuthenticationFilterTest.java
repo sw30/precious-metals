@@ -8,11 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.io.IOException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+
+
 
 class ApiKeyAuthenticationFilterTest {
 
@@ -39,13 +39,11 @@ class ApiKeyAuthenticationFilterTest {
 
     @Test
     void shouldAuthenticateAsM2MWithRegularApiKey() throws ServletException, IOException {
-        // Given
+
         when(request.getHeader("X-API-KEY")).thenReturn("test-key-12345");
 
-        // When
         filter.doFilter(request, response, filterChain);
 
-        // Then
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertThat(auth).isNotNull();
         assertThat(auth.getName()).isEqualTo("m2m-client");
@@ -55,13 +53,11 @@ class ApiKeyAuthenticationFilterTest {
 
     @Test
     void shouldAuthenticateAsAdminWithAdminApiKey() throws ServletException, IOException {
-        // Given
+
         when(request.getHeader("X-API-KEY")).thenReturn("admin-key-67890");
 
-        // When
         filter.doFilter(request, response, filterChain);
 
-        // Then
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertThat(auth).isNotNull();
         assertThat(auth.getName()).isEqualTo("admin-client");
@@ -71,13 +67,11 @@ class ApiKeyAuthenticationFilterTest {
 
     @Test
     void shouldNotAuthenticateWithInvalidKey() throws ServletException, IOException {
-        // Given
+
         when(request.getHeader("X-API-KEY")).thenReturn("invalid-key");
 
-        // When
         filter.doFilter(request, response, filterChain);
 
-        // Then
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertThat(auth).isNull();
         verify(filterChain).doFilter(request, response);
@@ -85,15 +79,14 @@ class ApiKeyAuthenticationFilterTest {
 
     @Test
     void shouldNotAuthenticateWithoutKey() throws ServletException, IOException {
-        // Given
+
         when(request.getHeader("X-API-KEY")).thenReturn(null);
 
-        // When
         filter.doFilter(request, response, filterChain);
 
-        // Then
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertThat(auth).isNull();
         verify(filterChain).doFilter(request, response);
     }
 }
+

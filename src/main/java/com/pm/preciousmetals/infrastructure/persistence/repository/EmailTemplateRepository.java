@@ -6,3 +6,4 @@ import java.util.UUID;
 
 public interface EmailTemplateRepository extends JpaRepository<EmailTemplateEntity, UUID> {
 }
+

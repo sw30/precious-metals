@@ -2,11 +2,7 @@ package com.pm.preciousmetals.infrastructure.adapter.web.controller;
 
 import com.pm.preciousmetals.application.usecase.ManageEmailTemplateUseCase;
 import com.pm.preciousmetals.domain.model.EmailRecipient;
-import com.pm.preciousmetals.domain.model.EmailSendingRule;
 import com.pm.preciousmetals.domain.model.EmailTemplate;
-import com.pm.preciousmetals.domain.model.rules.Operand;
-import com.pm.preciousmetals.domain.model.rules.Operator;
-import com.pm.preciousmetals.domain.model.rules.Rule;
 import com.pm.preciousmetals.infrastructure.web.controller.EmailTemplateController;
 import com.pm.preciousmetals.infrastructure.web.error.GlobalExceptionHandler;
 import io.micrometer.tracing.Tracer;
@@ -16,18 +12,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
 
 class EmailTemplateControllerTest {
 
@@ -120,3 +115,4 @@ class EmailTemplateControllerTest {
         verify(useCase).deleteTemplate(id);
     }
 }
+

@@ -21,3 +21,4 @@ public record Price(BigDecimal value) {
         return new Price(value);
     }
 }
+

@@ -10,3 +10,4 @@ public record EmailRecipient(String email) {
         }
     }
 }
+

@@ -55,3 +55,4 @@ class PriceTest {
         org.assertj.core.api.Assertions.assertThat(p1).isEqualTo(p2);
     }
 }
+

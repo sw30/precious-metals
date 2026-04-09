@@ -11,12 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.time.Duration;
 import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+
 
 class RateLimitingFilterTest {
 
@@ -80,7 +80,8 @@ class RateLimitingFilterTest {
         rateLimitingFilter.doFilterInternal(request, response, filterChain);
 
         verify(filterChain, times(2)).doFilter(request, response);
-        verify(response).setStatus(429); // Too many requests
+        verify(response).setStatus(429); 
         verify(objectMapper).writeValue(eq(writer), any());
     }
 }
+

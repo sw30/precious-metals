@@ -5,9 +5,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
 
-public interface EmailTemplateRepository {
+public interface EmailTemplateRepositoryPort {
     EmailTemplate save(EmailTemplate template);
     Optional<EmailTemplate> findById(UUID id);
     List<EmailTemplate> findAll();
     void deleteById(UUID id);
 }
+

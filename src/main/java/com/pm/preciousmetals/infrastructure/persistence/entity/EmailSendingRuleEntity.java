@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+
 
 @Entity
 @Table(name = "email_sending_rules")
@@ -36,3 +36,4 @@ public class EmailSendingRuleEntity {
     @JoinColumn(name = "template_id", nullable = false)
     private EmailTemplateEntity template;
 }
+

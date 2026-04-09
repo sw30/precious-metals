@@ -9,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.util.matcher.IpAddressMatcher;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Configuration
 @RequiredArgsConstructor
@@ -53,3 +53,4 @@ public class ResilienceConfig {
         return RateLimiterRegistry.of(config);
     }
 }
+

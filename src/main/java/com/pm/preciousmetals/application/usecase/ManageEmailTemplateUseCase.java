@@ -1,7 +1,5 @@
 package com.pm.preciousmetals.application.usecase;
 
-import com.pm.preciousmetals.domain.model.EmailRecipient;
-import com.pm.preciousmetals.domain.model.EmailSendingRule;
 import com.pm.preciousmetals.domain.model.EmailTemplate;
 import java.util.List;
 import java.util.Optional;
@@ -14,3 +12,4 @@ public interface ManageEmailTemplateUseCase {
     Optional<EmailTemplate> getTemplate(UUID id);
     List<EmailTemplate> getAllTemplates();
 }
+

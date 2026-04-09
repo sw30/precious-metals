@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
 import java.math.BigDecimal;
 import java.util.Objects;
+
 
 public record PriceSignalRequest(
         @NotNull(message = "Price is mandatory")
@@ -28,3 +28,4 @@ public record PriceSignalRequest(
         }
     }
 }
+

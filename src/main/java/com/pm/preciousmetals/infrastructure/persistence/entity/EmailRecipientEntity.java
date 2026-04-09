@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.UUID;
+
 
 @Entity
 @Table(name = "email_recipients")
@@ -29,3 +29,4 @@ public class EmailRecipientEntity {
         this.email = email;
     }
 }
+

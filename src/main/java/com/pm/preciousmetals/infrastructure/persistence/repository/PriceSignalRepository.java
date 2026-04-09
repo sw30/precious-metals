@@ -6,3 +6,4 @@ import java.util.UUID;
 
 public interface PriceSignalRepository extends JpaRepository<PriceSignalEntity, UUID> {
 }
+
