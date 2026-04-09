@@ -1,0 +1,19 @@
+{
+  "name": "precious-metals-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lit/context": "1.1.6",
+    "@vaadin/router": "2.0.1",
+    "lit": "3.3.2"
+  },
+  "devDependencies": {
+    "vite": "8.0.8"
+  }
+}
