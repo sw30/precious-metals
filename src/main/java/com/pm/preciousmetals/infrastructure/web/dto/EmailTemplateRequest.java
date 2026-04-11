@@ -20,7 +20,7 @@ public record EmailTemplateRequest(
     List<EmailSendingRuleDto> rules
 ) {
     public EmailTemplate toDomain() {
-        return toDomain(UUID.randomUUID());
+        return toDomain(null);
     }
 
     public EmailTemplate toDomain(UUID templateId) {

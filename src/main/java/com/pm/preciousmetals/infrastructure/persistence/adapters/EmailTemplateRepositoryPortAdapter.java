@@ -34,11 +34,7 @@ public class EmailTemplateRepositoryPortAdapter implements EmailTemplateReposito
         EmailTemplateEntity entity;
         if (template.id() != null) {
             entity = jpaRepository.findById(template.id())
-                    .orElseGet(() -> {
-                        EmailTemplateEntity newEntity = new EmailTemplateEntity();
-                        newEntity.setId(template.id());
-                        return newEntity;
-                    });
+                    .orElseGet(EmailTemplateEntity::new);
         } else {
             entity = new EmailTemplateEntity();
         }
