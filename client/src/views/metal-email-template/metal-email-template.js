@@ -137,10 +137,12 @@ export class MetalEmailTemplate extends LitElement {
       }
       await this.fetchTemplates();
       this.showForm = false;
+      alert(`Successfully updated template \n\nID: ${this.selectedTemplate.id} \nTitle: ${this.selectedTemplate.title}`)
       this.selectedTemplate = null;
     } catch (error) {
       console.error('Error saving template:', error);
-      this.updateContext({error: 'Failed to save template', loading: false});
+      const message = error instanceof BackendApiError ? error.message : 'Failed to save template';
+      this.updateContext({error: message, loading: false});
     }
   }
 
@@ -156,7 +158,8 @@ export class MetalEmailTemplate extends LitElement {
       }
     } catch (error) {
       console.error('Error deleting template:', error);
-      this.updateContext({error: 'Failed to delete template', loading: false});
+      const message = error instanceof BackendApiError ? error.message : 'Failed to delete template';
+      this.updateContext({error: message, loading: false});
     }
   }
 
@@ -177,16 +180,16 @@ export class MetalEmailTemplate extends LitElement {
     this.showForm = true;
   }
 
+  handleTemplateChanged(event) {
+    this.selectedTemplate = event.detail.template;
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
   }
 
   _renderListState() {
-    const {loading, error, templates} = this.contextValue;
-
-    if (error) {
-      return html`<p style="color: red">Error: ${error}</p>`;
-    }
+    const {loading, templates} = this.contextValue;
 
     if (loading && templates.length === 0) {
       return html`<p>Loading templates...</p>`;
@@ -202,7 +205,6 @@ export class MetalEmailTemplate extends LitElement {
   }
 
   render() {
-    const {templates, loading, error} = this.contextValue;
     return html`
         <header>
             <h1>Management</h1>
@@ -219,6 +221,7 @@ export class MetalEmailTemplate extends LitElement {
                     <template-form 
                         .template=${this.selectedTemplate}
                         @cancel-edit=${this.handleCancel}
+                        @template-changed=${this.handleTemplateChanged}
                     ></template-form>
                 ` : html`
                     <div class="empty-state">
